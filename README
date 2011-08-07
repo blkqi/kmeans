@@ -1,12 +1,13 @@
 NAME
 
-    k-means
-    version 1.1.0
+    k-means clustering
+    version 0.6.0
     author Brett L Kleinschmidt <blk@blk.me>
 
 DESCRIPTION
 
-    Clusters a multivaraite dataset into N neighborhoods
+    Partition n observations into k clusters in which each observation 
+    belongs to the cluster with the nearest mean.
 
 INSTALLATION
 

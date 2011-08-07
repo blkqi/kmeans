@@ -1,5 +1,5 @@
 /** =========================================================================
-    k-means - Cluster a multivaraite dataset into N neighborhoods
+    k-means - Partition n observations into k clusters
     -------------------------------------------------------------------------
     @author Brett L. Kleinschmidt <blk@blk.me>
     @copyright Copyright (c) 2010-2011, Brett L. Kleinschmidt
