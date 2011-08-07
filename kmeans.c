@@ -18,8 +18,10 @@
     -------------------------------------------------------------------------
 */
 
+#include <assert.h>
 #include <stdio.h>  // printf
 #include <math.h>   // INFINITY macro
+#include "readcsv.c"
 
 //  matrix (nxm) infinity norm
 double norm (double *matrix, int n, int m);
@@ -29,66 +31,46 @@ double norm (double *matrix, int n, int m);
 //
 #   define TOL 1.0e-5
 
-//  -------------------------------------------------------------------------
-//  Sample data
-//
-#   define D_N 27
-#   define D_M 2
-
-static const double 
-data [D_N][D_M] = {
-    { 340, 2.6 },
-    { 245, 2.7 },
-    { 420, 2.0 },
-    { 375, 2.6 },
-    { 180, 3.7 },
-    { 115, 1.4 },
-    { 170, 1.5 },
-    { 160, 5.9 },
-    { 265, 2.6 },
-    { 300, 2.3 },
-    { 340, 2.5 },
-    { 340, 2.5 },
-    { 355, 2.4 },
-    { 205, 2.5 },
-    { 185, 2.7 },
-    { 135, 0.6 },
-    {  70, 6.0 },
-    {  45, 5.4 },
-    {  90, 0.8 },
-    { 135, 0.5 },
-    { 200, 1.0 },
-    { 155, 1.8 },
-    { 195, 1.3 },
-    { 120, 0.7 },
-    { 180, 2.5 },
-    { 170, 1.2 },
-    { 110, 2.6 }
-};
-
-
-//  -------------------------------------------------------------------------
-//  Initial centroids
-//
-#   define C_N 3
-#   define C_M D_M
-
-static double 
-centroids [C_N][C_M] = {
-    { 100, 6.0 },
-    { 300, 3.0 },
-    { 150, 1.0 }
-};
-
 
 //  -------------------------------------------------------------------------
 //  k-means routine
-int main ()
+int main (int argc, char *argv[])
 {
-    int clusters [D_N]; // cluster classification
-    double cent_last [C_N][C_M]; // centroids (last iteration)
-
+    int d_n=0, d_m=0;
+    int c_n=0, c_m=0;
+    
+    //  read data from file
+	double data [MAX_N][MAX_M] = { 0 };
+    readcsv (argv[1], *data, &d_n, &d_m);
+ 
+    //  read centroids from file
+	double centroids [MAX_N][MAX_M] = { 0 };
+    readcsv (argv[2], *centroids, &c_n, &c_m);
+ 
+    assert (d_m == c_m);
     int i=0, j=0, k=0;
+
+    /*
+    printf ("data (%ix%i)\n", d_n, d_m);
+    for (i = 0; i < d_n; ++i) {
+        printf ("%i\t{ ", i);
+        for (j = 0; j < d_m; ++j)
+			printf ("%7.3f, %p ", data[i][j], &data[i][j]);
+        printf ("}\n");
+    }
+
+    printf ("centroids (%ix%i)\n", c_n, c_m);
+    for (i = 0; i < c_n; ++i) {
+        printf ("%i\t{ ", i);
+        for (j = 0; j < c_m; ++j)
+			printf ("%7.3f, %p ", centroids[i][j], &centroids[i][j]);
+        printf ("}\n");
+    }
+    */
+
+    int clusters [d_n]; // cluster classification
+    double cent_last [c_n][c_m]; // centroids (last iteration)
+
     double c=0.0, d=0.0, d_min=INFINITY;
 
     //
@@ -98,16 +80,17 @@ int main ()
     {   //  For each observation, calculate the distance from
         //  each centroid and then cluster by the nearest one
 
-        int cluster_pop [C_N] = { 0 }; // cluster populations
+        int cluster_pop [c_n]; // cluster populations
+        memset (cluster_pop, 0, c_n*sizeof(int));
 
-        for (i = 0; i < D_N; ++i) {
+        for (i = 0; i < d_n; ++i) {
             d_min = INFINITY;
 
-            for (j = 0; j < C_N; ++j) {
+            for (j = 0; j < c_n; ++j) {
                 //  calculate distance to centroid j
                 d = 0.0;
 
-                for (k = 0; k < D_M; ++k) {
+                for (k = 0; k < d_m; ++k) {
                     c = data[i][k] - centroids[j][k];
                     d += c * c;
                 }
@@ -125,29 +108,30 @@ int main ()
         //  Calculate new centroids
 
         //  data column sum for each cluster
-        double data_sum [C_N][C_M] = { 0 };
+        double data_sum [c_n][c_m];
+        memset (data_sum, 0, c_n*c_m*sizeof(double));
 
-        for (i = 0; i < D_N; ++i)
-            for (k = 0; k < D_M; ++k)
+        for (i = 0; i < d_n; ++i)
+            for (k = 0; k < d_m; ++k)
                 data_sum[clusters[i]][k] += data[i][k];
 
         //  centroid coordinate is mean of the column
-        for (j = 0; j < C_N; ++j) {
-            for (k = 0; k < D_M; ++k) {
+        for (j = 0; j < c_n; ++j) {
+            for (k = 0; k < d_m; ++k) {
                 cent_last[j][k] = centroids[j][k];
                 centroids[j][k] = data_sum[j][k] / cluster_pop[j];
             }
         }
 
     //  displacement-->0 (n-->inf)
-    } while (norm(*centroids, C_N, C_M) - norm(*cent_last, C_N, C_M) > TOL);
+    } while (norm(*centroids, c_n, c_m) - norm(*cent_last, c_n, c_m) > TOL);
 
     //
     //  Printout final centroid coordinates
 
-    for (j = 0; j < C_N; ++j) {
+    for (j = 0; j < c_n; ++j) {
         printf ("c[%d] = {", j);
-        for (k = 0; k < C_M; ++k)
+        for (k = 0; k < c_m; ++k)
             printf ("%8.3f ", centroids[j][k]);
         printf ("}\n");
     }
