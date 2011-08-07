@@ -1,7 +1,8 @@
 #ifndef __KMEANS_INCLUDED_H__
 #define __KMEANS_INCLUDED_H__
 
-//  standard headers
+//  -------------------------------------------------------------------------
+//  Standard headers
 //
 #   include <math.h>   // fabs, INFINITY
 #   include <stdio.h>  // printf
@@ -9,7 +10,8 @@
 #   include <string.h>
 #   include <assert.h>
 
-//  project headers
+//  -------------------------------------------------------------------------
+//  Project headers
 //
 #   include "readcsv.h"
 #   include "norm.h"
