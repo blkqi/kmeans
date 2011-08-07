@@ -1,10 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define MAX_N 2000   // maximum possible number of fields
-#define MAX_M 32  // longest possible field + 1 = 31 byte field
+#include "kmeans.h"
+//  -------------------------------------------------------------------------
  
-void parse (char *record, const char *delim, double data[], int *m)
+static void 
+parse (char *record, const char *delim, double data[], int *m)
 {
     *m = 0;
     char *p = strtok (record, delim);
@@ -14,7 +12,8 @@ void parse (char *record, const char *delim, double data[], int *m)
 	}
 }
  
-void readcsv (char *file, double data[], int *n, int *m)
+void 
+readcsv (char *file, double data[], int *n, int *m)
 {
     //  open csv file
 	FILE *in = fopen(file, "r");
