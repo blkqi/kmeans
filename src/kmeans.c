@@ -1,5 +1,6 @@
 /** =========================================================================
     k-means - Partition n observations into k clusters
+              (assumes squared Euclidean distance metric)
     -------------------------------------------------------------------------
     @author Brett L. Kleinschmidt <blk@blk.me>
     @copyright Copyright (c) 2010-2011, Brett L. Kleinschmidt
@@ -60,7 +61,7 @@ int main (int argc, char *argv[])
 
     do  //
     {   //  For each observation, calculate the distance from
-        //  each centroid and then cluster by the nearest one
+        //  each centroid and assign it to the nearest one
 
         memset (cluster_pop, 0, c_n*sizeof(int));
 
