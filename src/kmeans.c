@@ -18,13 +18,7 @@
     -------------------------------------------------------------------------
 */
 
-#include <assert.h>
-#include <stdio.h>  // printf
-#include <math.h>   // INFINITY macro
-#include "readcsv.c"
-
-//  matrix (nxm) infinity norm
-double norm (double *matrix, int n, int m);
+#include "kmeans.h"
 
 //  -------------------------------------------------------------------------
 //  Convergence tolerance
@@ -48,29 +42,11 @@ int main (int argc, char *argv[])
     readcsv (argv[2], *centroids, &c_n, &c_m);
  
     assert (d_m == c_m);
-    int i=0, j=0, k=0;
-
-    /*
-    printf ("data (%ix%i)\n", d_n, d_m);
-    for (i = 0; i < d_n; ++i) {
-        printf ("%i\t{ ", i);
-        for (j = 0; j < d_m; ++j)
-			printf ("%7.3f, %p ", data[i][j], &data[i][j]);
-        printf ("}\n");
-    }
-
-    printf ("centroids (%ix%i)\n", c_n, c_m);
-    for (i = 0; i < c_n; ++i) {
-        printf ("%i\t{ ", i);
-        for (j = 0; j < c_m; ++j)
-			printf ("%7.3f, %p ", centroids[i][j], &centroids[i][j]);
-        printf ("}\n");
-    }
-    */
 
     int clusters [d_n]; // cluster classification
     double cent_last [c_n][c_m]; // centroids (last iteration)
 
+    int i=0, j=0, k=0;
     double c=0.0, d=0.0, d_min=INFINITY;
 
     //
@@ -129,8 +105,17 @@ int main (int argc, char *argv[])
     //
     //  Printout final centroid coordinates
 
+    printf ("data (%ix%i)\n", d_n, d_m);
+    for (i = 0; i < d_n; ++i) {
+        printf ("%5i  { ", i);
+        for (j = 0; j < d_m; ++j)
+			printf ("%7.3f ", data[i][j]);
+        printf ("}  --> %2i\n", clusters[i]);
+    }
+
+    printf ("centroids (%ix%i)\n", d_n, d_m);
     for (j = 0; j < c_n; ++j) {
-        printf ("c[%d] = {", j);
+        printf ("%5i  {", j);
         for (k = 0; k < c_m; ++k)
             printf ("%8.3f ", centroids[j][k]);
         printf ("}\n");
@@ -140,25 +125,3 @@ int main (int argc, char *argv[])
 }
 
 
-//  -------------------------------------------------------------------------
-//  Matrix (infinity) norm
-//  nxm
-
-double norm (double *matrix, int n, int m)
-{
-    double column_sum [n];
-    double max = 0, test = 0;
-    int i, j;
-
-    for (i = 0; i < n; ++i) {
-        column_sum[i] = 0;
-
-        for (j = 0; j < m; ++j)
-            column_sum[i] += matrix[i*m+j];
-
-        if ((test = fabs (column_sum [i])) > max)
-            max = test;
-    }
-
-    return max;
-}

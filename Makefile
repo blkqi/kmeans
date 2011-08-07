@@ -1,8 +1,13 @@
+INCLUDE = -Iinclude
+OBJS = src/readcsv.o src/norm.o
 
 all: kmeans
 
 clean:
-	$(RM) kmeans
+	$(RM) kmeans $(OBJS)
 
-kmeans: kmeans.c readcsv.c
-	$(CC) $< -o $@
+kmeans: src/kmeans.c $(OBJS)
+	$(CC) $(INCLUDE) -o $@ $+ 
+
+.c.o:
+	$(CC) $(INCLUDE) -o $@ -c $<
