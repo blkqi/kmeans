@@ -36,9 +36,9 @@ void
 readcsv (char *file, double (*data)[MAX_M], int *n, int *m)
 {
     //  open csv file
-	FILE *in = fopen(file, "r");
+	FILE *in = fopen (file, "r");
 	if (!in) {
-		perror ("File open error");
+		fprintf (stderr, "error: `%s`: ", file), perror(0);
 		exit (EXIT_FAILURE);
 	}
 

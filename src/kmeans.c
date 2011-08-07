@@ -39,11 +39,11 @@ int main (int argc, char *argv[])
     readcsv (argv[2], centroids, &c_n, &c_m);
  
     if (d_m != c_m) {
-        fprintf (stderr, "error: data and centroid dimensionalities differ\n");
+        fprintf (stderr, "error: Data and centroid dimensionalities differ\n");
         return 1;
     }
     if (d_n < c_n) {
-        fprintf (stderr, "error: more clusters than data\n");
+        fprintf (stderr, "error: More clusters than data\n");
         return 1;
     }
 
@@ -117,11 +117,11 @@ int main (int argc, char *argv[])
         printf ("}  --> %2i\n", clusters[i]);
     }
 
-    printf ("centroids (%ix%i)\n", d_n, d_m);
+    printf ("centroids (%ix%i)\n", c_n, c_m);
     for (j = 0; j < c_n; ++j) {
-        printf ("%5i  {", j);
+        printf ("%5i  { ", j);
         for (k = 0; k < c_m; ++k)
-            printf ("%8.3f ", centroids[j][k]);
+            printf ("%7.3f ", centroids[j][k]);
         printf ("}\n");
     }
 
