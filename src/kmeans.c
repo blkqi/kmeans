@@ -74,7 +74,7 @@ int main (int argc, char *argv[])
                     int c = data[i][k] - centroids[j][k];
                     dist += c * c;
                 }
-                //  minize distance
+                //  minimize distance
                 if (dist < dist_min) {
                     dist_min = dist;
                     clusters[i] = j;
