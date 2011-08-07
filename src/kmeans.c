@@ -24,7 +24,7 @@
 int main (int argc, char *argv[])
 {
     if (argc < 3) {
-        printf ("usage: kmeans [data] [centroids]\n");
+        fprintf (stderr, "usage: kmeans <data> <centroids>\n");
         return 1;
     }
 
@@ -40,11 +40,11 @@ int main (int argc, char *argv[])
  
     if (d_n < c_n) {
         fprintf (stderr, "error: More clusters than data\n");
-        return 1;
+        return -1;
     }
     if (d_m != c_m) {
         fprintf (stderr, "error: Data and centroid dimensionalities differ\n");
-        return 1;
+        return -1;
     }
 
     int clusters [d_n]; // assigned cluster of datum
