@@ -2,7 +2,7 @@
 #define __NORM_INCLUDED_H__
 
 //  -------------------------------------------------------------------------
-//  matrix (nxm) infinity norm
+//  Matrix (nxm) infinity norm
 double 
     norm (double *matrix, int n, int m);
 
