@@ -1,5 +1,7 @@
 #include "kmeans.h"
 //  -------------------------------------------------------------------------
+//  Read data from comma separated value files
+//
  
 static void 
 parse (char *record, const char *delim, double data[], int *m)

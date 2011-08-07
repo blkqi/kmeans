@@ -1,7 +1,7 @@
 #include "kmeans.h"
 //  -------------------------------------------------------------------------
-//  Matrix (infinity) norm
-//  nxm
+//  Matrix infinity norm (nxm)
+//
 
 double norm (double *matrix, int n, int m)
 {
