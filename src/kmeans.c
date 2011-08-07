@@ -18,10 +18,10 @@
     -------------------------------------------------------------------------
 */
 
-#include "kmeans.h"
-
+#   include "kmeans.h"
 //  -------------------------------------------------------------------------
 //  k-means routine
+//
 int main (int argc, char *argv[])
 {
     if (argc < 3) {
@@ -32,19 +32,19 @@ int main (int argc, char *argv[])
     //  read data from file
     int d_n=0, d_m=0;
     double data [MAX_N][MAX_M] = { 0 };
-    readcsv (argv[1], *data, &d_n, &d_m);
+    readcsv (argv[1], data, &d_n, &d_m);
  
     //  read centroids from file
     int c_n=0, c_m=0;
     double centroids [MAX_N][MAX_M] = { 0 };
-    readcsv (argv[2], *centroids, &c_n, &c_m);
+    readcsv (argv[2], centroids, &c_n, &c_m);
  
     if (d_m != c_m) {
-        fprintf (stderr, "error: data and centroid dimensionalities differ");
+        fprintf (stderr, "error: data and centroid dimensionalities differ\n");
         return 1;
     }
     if (d_n < c_n) {
-        fprintf (stderr, "error: more clusters than data");
+        fprintf (stderr, "error: more clusters than data\n");
         return 1;
     }
 

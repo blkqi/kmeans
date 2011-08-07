@@ -10,6 +10,6 @@
 
 //  Read csv file into double array
 void 
-    readcsv (char *file, double data[], int *n, int *m);
+    readcsv (char *file, double (*data)[MAX_M], int *n, int *m);
 
 #endif
