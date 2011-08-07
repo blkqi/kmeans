@@ -1,5 +1,5 @@
 /** =========================================================================
-    k-means - clusters a multivaraite dataset into N neighborhoods
+    k-means - Cluster a multivaraite dataset into N neighborhoods
     -------------------------------------------------------------------------
     @author Brett L. Kleinschmidt <blk@blk.me>
     @copyright Copyright (c) 2010-2011, Brett L. Kleinschmidt
@@ -17,11 +17,10 @@
     For Support, please visit http://blk.me/
     -------------------------------------------------------------------------
 */
-
 #   include "kmeans.h"
 //  -------------------------------------------------------------------------
-//  k-means routine
 //
+
 int main (int argc, char *argv[])
 {
     if (argc < 3) {
