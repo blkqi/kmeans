@@ -24,24 +24,29 @@
 //  k-means routine
 int main (int argc, char *argv[])
 {
-    int d_n=0, d_m=0;
-    int c_n=0, c_m=0;
-    
+    if (argc < 3) {
+        printf ("usage: kmeans [data] [centroids]\n");
+        return 1;
+    }
+
     //  read data from file
+    int d_n=0, d_m=0;
     double data [MAX_N][MAX_M] = { 0 };
     readcsv (argv[1], *data, &d_n, &d_m);
  
     //  read centroids from file
+    int c_n=0, c_m=0;
     double centroids [MAX_N][MAX_M] = { 0 };
     readcsv (argv[2], *centroids, &c_n, &c_m);
  
-    assert (d_m == c_m);
+    assert (d_m == c_m); // same dimensionality
+    assert (d_n >= c_n); // greater data cardinality
 
     int clusters [d_n]; // cluster classification
     double cent_last [c_n][c_m]; // centroids (last iteration)
 
-    int i=0, j=0, k=0;
-    double c=0.0, d=0.0, d_min=INFINITY;
+    int i, j, k;
+    double dist, dist_min;
 
     //
     //  Iterate, converge absolutely
@@ -54,19 +59,19 @@ int main (int argc, char *argv[])
         memset (cluster_pop, 0, c_n*sizeof(int));
 
         for (i = 0; i < d_n; ++i) {
-            d_min = INFINITY;
+            dist_min = INFINITY; // assume distance minimum is +inf
 
             for (j = 0; j < c_n; ++j) {
                 //  calculate distance to centroid j
-                d = 0.0;
+                dist = 0.0;
 
                 for (k = 0; k < d_m; ++k) {
-                    c = data[i][k] - centroids[j][k];
-                    d += c * c;
+                    int c = data[i][k] - centroids[j][k];
+                    dist += c * c;
                 }
-                //  minize distance d
-                if (d < d_min) {
-                    d_min = d;
+                //  minize distance
+                if (dist < dist_min) {
+                    dist_min = dist;
                     clusters[i] = j;
                 }
             }
