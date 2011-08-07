@@ -38,12 +38,12 @@ readcsv (char *file, double (*data)[MAX_M], int *n, int *m)
     //  open csv file
 	FILE *in = fopen (file, "r");
 	if (!in) {
-		fprintf (stderr, "error: `%s`: ", file), perror(0);
+		fprintf (stderr, "error: %s: ", file), perror(0);
 		exit (EXIT_FAILURE);
 	}
 
+	int cols=0;
     *n = 0; *m = 0;
-	int cols = 0;
 
     //  parse line-by-line
 	char tmp [1024] = { 0 };

@@ -38,20 +38,22 @@ int main (int argc, char *argv[])
     double centroids [MAX_N][MAX_M] = { 0 };
     readcsv (argv[2], centroids, &c_n, &c_m);
  
-    if (d_m != c_m) {
-        fprintf (stderr, "error: Data and centroid dimensionalities differ\n");
-        return 1;
-    }
     if (d_n < c_n) {
         fprintf (stderr, "error: More clusters than data\n");
         return 1;
     }
+    if (d_m != c_m) {
+        fprintf (stderr, "error: Data and centroid dimensionalities differ\n");
+        return 1;
+    }
 
-    int clusters [d_n]; // cluster classification
+    int clusters [d_n]; // assigned cluster of datum
+    int cluster_pop [c_n]; // population of cluster
+    double data_sum [c_n][c_m]; // data column sum of cluster
     double cent_last [c_n][c_m]; // centroids (last iteration)
 
     int i, j, k;
-    double dist, dist_min;
+    double dist, dist_min, c;
 
     //
     //  Iterate, converge absolutely
@@ -60,18 +62,16 @@ int main (int argc, char *argv[])
     {   //  For each observation, calculate the distance from
         //  each centroid and then cluster by the nearest one
 
-        int cluster_pop [c_n]; // cluster populations
         memset (cluster_pop, 0, c_n*sizeof(int));
 
         for (i = 0; i < d_n; ++i) {
-            dist_min = INFINITY; // assume distance minimum is +inf
-
+            dist_min = INFINITY;
+            // assume distance minimum is +inf
             for (j = 0; j < c_n; ++j) {
-                //  calculate distance to centroid j
                 dist = 0.0;
-
+                //  calculate distance to centroid j
                 for (k = 0; k < d_m; ++k) {
-                    int c = data[i][k] - centroids[j][k];
+                    c = data[i][k] - centroids[j][k];
                     dist += c * c;
                 }
                 //  minimize distance
@@ -87,15 +87,14 @@ int main (int argc, char *argv[])
         //
         //  Calculate new centroids
 
-        //  data column sum for each cluster
-        double data_sum [c_n][c_m];
         memset (data_sum, 0, c_n*c_m*sizeof(double));
 
+        //  sum data columns per cluster
         for (i = 0; i < d_n; ++i)
             for (k = 0; k < d_m; ++k)
                 data_sum[clusters[i]][k] += data[i][k];
 
-        //  centroid coordinate is mean of the column
+        //  centroid coordinate is mean of corresponding column
         for (j = 0; j < c_n; ++j) {
             for (k = 0; k < d_m; ++k) {
                 cent_last[j][k] = centroids[j][k];
@@ -116,7 +115,6 @@ int main (int argc, char *argv[])
 			printf ("%7.3f ", data[i][j]);
         printf ("}  --> %2i\n", clusters[i]);
     }
-
     printf ("centroids (%ix%i)\n", c_n, c_m);
     for (j = 0; j < c_n; ++j) {
         printf ("%5i  { ", j);

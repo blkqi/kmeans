@@ -29,10 +29,10 @@ double norm (double *matrix, int n, int m)
 
     for (i = 0; i < n; ++i) {
         column_sum[i] = 0;
-
+        // sum columns
         for (j = 0; j < m; ++j)
             column_sum[i] += matrix[i*m+j];
-
+        // inf norm is absolute max column sum
         if ((test = fabs (column_sum [i])) > max)
             max = test;
     }
