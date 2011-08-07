@@ -39,8 +39,14 @@ int main (int argc, char *argv[])
     double centroids [MAX_N][MAX_M] = { 0 };
     readcsv (argv[2], *centroids, &c_n, &c_m);
  
-    assert (d_m == c_m); // same dimensionality
-    assert (d_n >= c_n); // greater data cardinality
+    if (d_m != c_m) {
+        fprintf (stderr, "error: data and centroid dimensionalities differ");
+        return 1;
+    }
+    if (d_n < c_n) {
+        fprintf (stderr, "error: more clusters than data");
+        return 1;
+    }
 
     int clusters [d_n]; // cluster classification
     double cent_last [c_n][c_m]; // centroids (last iteration)
