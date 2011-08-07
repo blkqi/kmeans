@@ -28,11 +28,11 @@ int main (int argc, char *argv[])
     int c_n=0, c_m=0;
     
     //  read data from file
-	double data [MAX_N][MAX_M] = { 0 };
+    double data [MAX_N][MAX_M] = { 0 };
     readcsv (argv[1], *data, &d_n, &d_m);
  
     //  read centroids from file
-	double centroids [MAX_N][MAX_M] = { 0 };
+    double centroids [MAX_N][MAX_M] = { 0 };
     readcsv (argv[2], *centroids, &c_n, &c_m);
  
     assert (d_m == c_m);
