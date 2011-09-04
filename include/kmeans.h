@@ -1,14 +1,14 @@
-#ifndef __KMEANS_INCLUDED_H__
-#define __KMEANS_INCLUDED_H__
+#ifndef    __KMEANS_INCLUDED_H__
+#   define __KMEANS_INCLUDED_H__
 
 //  -------------------------------------------------------------------------
 //  Standard headers
 //
 #   include <math.h>   // fabs, INFINITY
 #   include <stdio.h>  // printf
-#   include <stdlib.h> 
-#   include <string.h>
-#   include <assert.h>
+#   include <stdlib.h> // EXIT_FAILURE
+#   include <string.h> // memset
+#   include <assert.h> // assert
 
 //  -------------------------------------------------------------------------
 //  Project headers
@@ -20,6 +20,5 @@
 //  Convergence tolerance
 //
 #   define TOL 1.0e-5
-
 
 #endif

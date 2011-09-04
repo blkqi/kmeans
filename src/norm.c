@@ -21,7 +21,8 @@
 //  -------------------------------------------------------------------------
 //
 
-double norm (double *matrix, int n, int m)
+double 
+norm (double *matrix, int n, int m)
 {
     double column_sum [n];
     double max = 0, test = 0;
@@ -36,6 +37,5 @@ double norm (double *matrix, int n, int m)
         if ((test = fabs (column_sum [i])) > max)
             max = test;
     }
-
     return max;
 }
