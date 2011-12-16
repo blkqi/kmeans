@@ -28,27 +28,27 @@ parse (char *record, const char *delim, double (*data)[MAX_M], int *m)
     char *p = strtok (record, delim);
     while (p) {
         (*data)[(*m)++] = atof (p);
-		p = strtok (0, delim);
-	}
+        p = strtok (0, delim);
+    }
 }
  
 void 
 readcsv (char *file, double (*data)[MAX_M], int *n, int *m)
 {
     //  open csv file
-	FILE *in = fopen (file, "r");
-	if (!in) {
-		fprintf (stderr, "error: %s: ", file), perror(0);
-		exit (EXIT_FAILURE);
-	}
+    FILE *in = fopen (file, "r");
+    if (!in) {
+        fprintf (stderr, "error: %s: ", file), perror(0);
+        exit (EXIT_FAILURE);
+    }
 
-	int cols=0;
+    int cols=0;
     *n = 0; *m = 0;
 
     //  parse line-by-line
-	char tmp [1024] = { 0 };
-	while (fgets (tmp, sizeof(tmp), in) != 0) {
-		parse (tmp, ", \n", (data+(*n)), &cols);
+    char tmp [1024] = { 0 };
+    while (fgets (tmp, sizeof(tmp), in) != 0) {
+        parse (tmp, ", \n", (data+(*n)), &cols);
         if (cols > *m) // nbr cols is max nbr cols
             *m = cols;
         if (cols > 0) // skip blank lines
